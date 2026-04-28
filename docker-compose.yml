@@ -1,0 +1,12 @@
+services:
+  playwright-tests:
+    image: mcr.microsoft.com/playwright:v1.59.1-jammy
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules   # isolate from Windows host node_modules
+    environment:
+      - CI=true
+      - BASE_URL=${BASE_URL:-https://www.uniqlo.com/us/en/}
+      - BROWSER=${BROWSER:-chromium}
+    command: sh -c "npm ci && npx playwright test --project=$$BROWSER"

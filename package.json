@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@types/node": "^25.6.0",
+    "axios": "^1.15.2",
+    "playwright": "^1.59.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  },
+  "scripts": {
+    "test": "npx playwright test --project=chromium",
+    "test:all": "npx playwright test",
+    "test:headed": "npx playwright test --project=chromium --headed",
+    "test:report": "npx playwright show-report"
+  }
+}
