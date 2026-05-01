@@ -16,7 +16,9 @@ export class HomePage extends BasePage {
     btnCart = this._page.getByRole('link', {name: 'Cart'});
     btnMenu = this._page.getByRole('button', {name: 'Menu / Product Search'});
 
-    txbSearch = this._page.getByRole('searchbox', {name: 'Search'})
+    txbSearch = this._page.getByRole('searchbox', {
+        name: /Search|What are you looking for\?/i,
+    });
     // Women Category
     btnTShirts_Sweats =  this._page.getByRole('link', {name: 'T-Shirts & Sweats'})
     btnShirts_Blouses = this._page.getByRole('link', {name: 'Shirts & Blouses'})
