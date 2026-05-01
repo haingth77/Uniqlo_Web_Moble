@@ -15,6 +15,7 @@ test.describe('Home Page', () => {
 
     await test.step('Verify that "Women" category is displayed', async () => {
       await homePage.btnWomen.hover();
+      await homePage.txbSearch.waitFor({ state: 'visible', timeout: 3000 });
       await expect(homePage.txbSearch).toBeEditable();
       await expect(homePage.btnTShirts_Sweats).toBeVisible();
       await expect(homePage.btnShirts_Blouses).toBeVisible();
@@ -23,6 +24,7 @@ test.describe('Home Page', () => {
 
     await test.step('Verify that "Men" category is displayed', async () => {
       await homePage.btnMen.hover();
+      await homePage.txbSearch.waitFor({ state: 'visible', timeout: 3000 });
       await expect(homePage.txbSearch).toBeEditable();
       await expect(homePage.btnPolos).toBeVisible();
       await expect(homePage.btnShirts).toBeVisible();
@@ -31,6 +33,7 @@ test.describe('Home Page', () => {
 
     await test.step('Verify that "Kids" category is displayed', async () => {
       await homePage.btnKids.hover();
+      await homePage.txbSearch.waitFor({ state: 'visible', timeout: 3000 });
       await expect(homePage.txbSearch).toBeEditable();
       await expect(homePage.btnNewArrivals).toBeVisible();
       await expect(homePage.btnSale).toBeVisible();
@@ -39,13 +42,14 @@ test.describe('Home Page', () => {
 
     await test.step('Verify that "Baby" category is displayed', async () => {
       await homePage.btnBaby.hover();
+      await homePage.txbSearch.waitFor({ state: 'visible', timeout: 3000 });
       await expect(homePage.txbSearch).toBeEditable();
       await expect(homePage.btnBestSellers).toBeVisible();
       await expect(homePage.btnComingSoon).toBeVisible();
     });
   });
 
-  test(`Verify that URL change when hover on 'Women' - 'Men' - 'Kids' - 'Baby`, async ({
+  test(`HP-003: Verify that URL change when hover on 'Women' - 'Men' - 'Kids' - 'Baby`, async ({
     appPage,
   }) => {
     const homePage = new HomePage(appPage);
