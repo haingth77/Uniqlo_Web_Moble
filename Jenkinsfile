@@ -15,7 +15,7 @@ pipeline {
     }
 
     environment {
-        BASE_URL = "${params.ENVIRONMENT == 'QA' ? 'https://uniqlo.com/uk/en/' : 'https://uniqlo.com/vn/en/'}"
+        BASE_URL = "${params.ENVIRONMENT == 'QA' ? 'https://www.uniqlo.com/uk/en/' : 'https://www.uniqlo.com/vn/en/'}"
         BROWSER  = "${params.BROWSER}"
     }
 
