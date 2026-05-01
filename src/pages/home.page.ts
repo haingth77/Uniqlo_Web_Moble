@@ -28,7 +28,7 @@ export class HomePage extends BasePage {
     btnAccessories = this._page.getByRole('link', {name: 'Accessories', exact: true})
 
     // Kids Category
-    btnNewArrivals = this._page.getByRole('link', {name: 'New Arrivals', exact: true})
+    btnNewArrivals = this._page.getByRole('link', {name: 'New Arrivals New Arrivals', exact: true})
     btnSale = this._page.locator('#homeCategoryList').getByRole('link', { name: 'Sale' })
     btnHeattech = this._page.getByRole('link', {name: 'HEATTECH'})
    
