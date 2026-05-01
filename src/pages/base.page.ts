@@ -11,6 +11,7 @@ export class BasePage {
     try {
       await acceptBtn.waitFor({ state: 'visible', timeout });
       await acceptBtn.click();
+      console.log('Accepted Cookies');
     } catch {
       // Banner not shown within timeout — skip silently.
     }
