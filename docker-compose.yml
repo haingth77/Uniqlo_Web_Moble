@@ -9,4 +9,4 @@ services:
       - CI=true
       - BASE_URL=${BASE_URL:-https://www.uniqlo.com/us/en/}
       - BROWSER=${BROWSER:-chromium}
-    command: sh -c "npm ci && npx playwright test --project=$$BROWSER"
+    command: sh -c 'npm ci && if [ "$$BROWSER" = "all" ]; then npx playwright test; else npx playwright test --project=$$BROWSER; fi'

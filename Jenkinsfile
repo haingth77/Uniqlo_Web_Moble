@@ -9,14 +9,14 @@ pipeline {
         )
         choice(
             name: 'BROWSER',
-            choices: ['chromium', 'firefox', 'webkit'],
-            description: 'Select browser'
+            choices: ['chromium', 'firefox', 'webkit', 'All Browsers'],
+            description: 'Select browser (choose "All Browsers" to run on all 3 browsers)'
         )
     }
 
     environment {
         BASE_URL = "${params.ENVIRONMENT == 'QA' ? 'https://www.uniqlo.com/uk/en/' : 'https://www.uniqlo.com/vn/en/'}"
-        BROWSER  = "${params.BROWSER}"
+        BROWSER  = "${params.BROWSER == 'All Browsers' ? 'all' : params.BROWSER}"
     }
 
     options {

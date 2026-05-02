@@ -1,9 +1,16 @@
 import { Page } from '@playwright/test';
+import { Locales } from '@utils/locales';
+import { getLocale } from '@config/constant.enum';
+
+type LocaleStrings = (typeof Locales)[keyof typeof Locales];
 
 export class BasePage {
   readonly _page: Page;
+  readonly t: LocaleStrings;
+
   constructor(page: Page) {
     this._page = page;
+    this.t = Locales[getLocale()];
   }
 
   async acceptCookiesIfShown(timeout = 3000): Promise<void> {
