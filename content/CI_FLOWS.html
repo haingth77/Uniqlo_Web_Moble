@@ -1,0 +1,458 @@
+<style>
+.ci-flows {
+  --ground: #0d141c;
+  --panel: #141d28;
+  --panel-2: #0a1017;
+  --ink: #e6edf3;
+  --muted: #8fa3b5;
+  --faint: #63768a;
+  --hair: #26333f;
+  --a: #4aa8ff;
+  --a-soft: rgba(74,168,255,.13);
+  --b: #ff6b4a;
+  --b-soft: rgba(255,107,74,.13);
+  --good: #56d364;
+  --cf-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --cf-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  background:
+    radial-gradient(1000px 500px at 12% -5%, rgba(74,168,255,.07), transparent 60%),
+    radial-gradient(900px 520px at 96% 0%, rgba(255,107,74,.06), transparent 55%),
+    var(--ground);
+  color: var(--ink);
+  font-family: var(--cf-sans);
+  line-height: 1.6;
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  padding: 32px 30px 38px;
+  margin: 4px 0;
+}
+.ci-flows * { box-sizing: border-box; }
+
+.ci-flows .cf-eyebrow {
+  font-family: var(--cf-mono);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 12px;
+}
+.ci-flows .cf-lede {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 68ch;
+  margin: 0 0 24px;
+}
+.ci-flows .cf-lede b { color: var(--ink); font-weight: 600; }
+
+/* relationship strip */
+.ci-flows .bridge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  margin-bottom: 34px;
+}
+.ci-flows .bridge .chip { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink); }
+.ci-flows .bridge .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+.ci-flows .bridge .dot.a { background: var(--a); box-shadow: 0 0 0 4px var(--a-soft); }
+.ci-flows .bridge .dot.b { background: var(--b); box-shadow: 0 0 0 4px var(--b-soft); }
+.ci-flows .bridge .arrow { color: var(--faint); font-family: var(--cf-mono); }
+.ci-flows .bridge .key {
+  margin-left: auto;
+  font-family: var(--cf-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  background: var(--panel-2);
+  border: 1px solid var(--hair);
+  padding: 8px 12px;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+.ci-flows .bridge .key b { color: var(--good); font-weight: 600; }
+
+/* flow section */
+.ci-flows .flow { margin-bottom: 26px; }
+.ci-flows .flow--a { --accent: var(--a); --accent-soft: var(--a-soft); }
+.ci-flows .flow--b { --accent: var(--b); --accent-soft: var(--b-soft); }
+
+.ci-flows .flow__head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-left: 3px solid var(--accent);
+  border-radius: 14px 14px 0 0;
+  border-bottom: none;
+}
+.ci-flows .flow__badge {
+  width: 46px; height: 46px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--cf-mono);
+  font-weight: 700;
+  font-size: 22px;
+}
+.ci-flows .flow__t { min-width: 0; }
+.ci-flows .flow__t .name { font-size: 19px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+.ci-flows .flow__t .goal { margin-top: 3px; color: var(--muted); font-size: 14px; }
+.ci-flows .flow__src { margin-left: auto; display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; }
+.ci-flows .flow__src .f {
+  font-family: var(--cf-mono);
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--hair);
+  padding: 5px 9px;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+
+.ci-flows .flow__body {
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  padding: 24px 22px 28px;
+}
+
+/* steps */
+.ci-flows .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.ci-flows .step { display: grid; grid-template-columns: 52px 1fr; gap: 20px; margin: 0; }
+.ci-flows .lane { position: relative; display: flex; justify-content: center; }
+.ci-flows .node {
+  width: 40px; height: 40px; flex: none;
+  margin-top: 3px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--cf-mono);
+  font-weight: 700;
+  font-size: 15px;
+  z-index: 1;
+}
+.ci-flows .step:not(:last-child) .lane::after {
+  content: "";
+  position: absolute;
+  top: 47px; bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--hair) 85%);
+  opacity: .5;
+}
+
+.ci-flows .card { min-width: 0; }
+.ci-flows .card__head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.ci-flows .card__head .h { font-size: 16.5px; font-weight: 650; letter-spacing: -.005em; color: var(--ink); }
+.ci-flows .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.ci-flows .card p + p { margin-top: 8px; }
+.ci-flows .card p b { color: var(--ink); font-weight: 600; }
+.ci-flows .card .why { color: var(--faint); }
+.ci-flows .card .why::before { content: "→ "; color: var(--accent); }
+
+/* code snippet (real source) */
+.ci-flows .snip {
+  margin: 12px 0 0;
+  background: var(--panel-2);
+  border: 1px solid var(--hair);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.ci-flows .snip__file {
+  font-family: var(--cf-mono);
+  font-size: 11px;
+  letter-spacing: .03em;
+  color: var(--accent);
+  padding: 7px 13px;
+  border-bottom: 1px solid var(--hair);
+  background: var(--accent-soft);
+}
+.ci-flows .snip pre { margin: 0; padding: 12px 14px; overflow-x: auto; }
+.ci-flows .snip code {
+  font-family: var(--cf-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #ccd6e0;
+  white-space: pre;
+  display: block;
+  background: none; border: none; padding: 0;
+}
+.ci-flows .snip .kw { color: var(--accent); }
+.ci-flows .snip .cm { color: var(--faint); }
+
+/* terminal command */
+.ci-flows .term {
+  margin: 12px 0 0;
+  background: var(--panel-2);
+  border: 1px solid var(--hair);
+  border-radius: 9px;
+  padding: 11px 14px;
+  overflow-x: auto;
+}
+.ci-flows .term code {
+  font-family: var(--cf-mono);
+  font-size: 13px;
+  color: #d7e3ef;
+  white-space: pre;
+  display: block;
+  background: none; padding: 0; border: none;
+}
+.ci-flows .term .p { color: var(--accent); user-select: none; }
+
+.ci-flows .cf-foot {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--hair);
+  color: var(--faint);
+  font-size: 12.5px;
+  font-family: var(--cf-mono);
+}
+
+@media (max-width: 720px) {
+  .ci-flows { padding: 22px 16px 26px; }
+  .ci-flows .flow__head { flex-wrap: wrap; }
+  .ci-flows .flow__src { margin-left: 0; justify-content: flex-start; width: 100%; }
+  .ci-flows .bridge .key { margin-left: 0; }
+  .ci-flows .step { grid-template-columns: 40px 1fr; gap: 14px; }
+  .ci-flows .node { width: 34px; height: 34px; font-size: 13px; }
+  .ci-flows .step:not(:last-child) .lane::after { top: 40px; }
+}
+</style>
+
+<div class="ci-flows">
+  <p class="cf-eyebrow">Docker · Jenkins · step-by-step</p>
+  <p class="cf-lede">
+    Repo có hai đường CI tách biệt: <b style="color:var(--a)">Flow A</b> dựng chính máy chủ Jenkins bằng Docker,
+    và <b style="color:var(--b)">Flow B</b> là pipeline chạy test mỗi lần có job. Mỗi bước ở cột trái đi kèm đoạn
+    code thật ngay bên phải — không cần mở file nguồn để đối chiếu.
+  </p>
+
+  <div class="bridge">
+    <span class="chip"><span class="dot a"></span> Flow A — Build Jenkins host (image)</span>
+    <span class="arrow">──▶</span>
+    <span class="chip"><span class="dot b"></span> Flow B — Pipeline chạy trên host đó</span>
+    <span class="key">Mấu chốt nối 2 flow: volume <b>/var/run/docker.sock</b> ở A4<br>cho phép lệnh <b>docker&nbsp;compose&nbsp;up</b> ở B5 chạy được.</span>
+  </div>
+
+  <!-- FLOW A -->
+  <section class="flow flow--a">
+    <div class="flow__head">
+      <div class="flow__badge">A</div>
+      <div class="flow__t">
+        <div class="name">Dockerfile → Docker image → Jenkins container</div>
+        <div class="goal">Mục tiêu: một Jenkins controller chạy trong Docker, tự gọi được <code>docker compose</code>.</div>
+      </div>
+      <div class="flow__src">
+        <span class="f">docker_ci_cd/Dockerfile</span>
+        <span class="f">docker_ci_cd/docker-compose.yaml</span>
+      </div>
+    </div>
+    <div class="flow__body">
+      <ol class="steps">
+        <li class="step">
+          <div class="lane"><span class="node">1</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Base image</span></div>
+            <p>Lấy image Jenkins LTS kèm sẵn JDK 21 làm nền. Đã có Jenkins server hoàn chỉnh, ta chỉ bổ sung công cụ còn thiếu.</p>
+            <div class="snip"><div class="snip__file">Dockerfile</div><pre><code><span class="kw">FROM</span> jenkins/jenkins:lts-jdk21</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">2</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Cài Docker CLI + Compose</span></div>
+            <p>Chuyển sang <b>root</b> để cài <b>docker.io + curl</b>, tải <b>docker-compose v2.24.0</b> về làm CLI plugin, cấp quyền chạy, rồi xoá cache apt cho nhẹ image.</p>
+            <p class="why">Bước then chốt: Jenkins sẽ cần gọi <b>docker compose</b> để chạy test ở Flow B.</p>
+            <div class="snip"><div class="snip__file">Dockerfile</div><pre><code><span class="kw">USER</span> root
+<span class="kw">RUN</span> apt-get update &amp;&amp; \
+    apt-get install -y docker.io curl &amp;&amp; \
+    mkdir -p /usr/local/lib/docker/cli-plugins &amp;&amp; \
+    curl -SL "https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64" \
+         -o /usr/local/lib/docker/cli-plugins/docker-compose &amp;&amp; \
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose &amp;&amp; \
+    rm -rf /var/lib/apt/lists/*</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">3</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Hạ quyền</span></div>
+            <p>Trả lại user thường sau khi cài xong. Không để Jenkins chạy bằng root, thu hẹp rủi ro bảo mật.</p>
+            <div class="snip"><div class="snip__file">Dockerfile</div><pre><code><span class="kw">USER</span> jenkins</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">4</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Khai báo service</span></div>
+            <p><b>build: .</b> dựng image từ Dockerfile. Port <b>8080</b> (web UI) và <b>50000</b> (kết nối agent). Volume <b>/var/jenkins_home</b> giữ dữ liệu qua mỗi lần restart; <b>/var/run/docker.sock</b> cho container điều khiển Docker của host (Docker-outside-of-Docker).</p>
+            <p class="why">Chính socket này là cầu nối để Flow B chạy được container test.</p>
+            <div class="snip"><div class="snip__file">docker_ci_cd/docker-compose.yaml</div><pre><code>services:
+  jenkins:
+    build: .
+    user: root
+    ports:
+      - "0.0.0.0:8080:8080"
+      - "0.0.0.0:50000:50000"
+    volumes:
+      - /var/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - GIT_CONFIG_COUNT=1
+      - GIT_CONFIG_KEY_0=safe.directory
+      - GIT_CONFIG_VALUE_0=*
+    restart: unless-stopped</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">5</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Build &amp; khởi động</span></div>
+            <p>Compose build image (nếu chưa có) rồi tạo và chạy container Jenkins.</p>
+            <div class="term"><code><span class="p">$</span> docker compose up --build -d</code></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">6</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Jenkins sẵn sàng</span></div>
+            <p>Giờ có một <b>Jenkins controller chạy trong Docker</b>, tự gọi được <b>docker</b> / <b>docker compose</b> — đúng môi trường mà Flow B cần. Truy cập web UI để cấu hình job.</p>
+            <div class="term"><code><span class="p">$</span> open http://localhost:8080</code></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FLOW B -->
+  <section class="flow flow--b">
+    <div class="flow__head">
+      <div class="flow__badge">B</div>
+      <div class="flow__t">
+        <div class="name">Jenkinsfile → job SCM chạy trên Jenkins</div>
+        <div class="goal">Mục tiêu: mỗi job kéo code, chạy Playwright trong container, xuất report, dọn dẹp.</div>
+      </div>
+      <div class="flow__src">
+        <span class="f">Jenkinsfile</span>
+        <span class="f">docker-compose.yml (gốc repo)</span>
+      </div>
+    </div>
+    <div class="flow__body">
+      <ol class="steps">
+        <li class="step">
+          <div class="lane"><span class="node">1</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Tham số job</span></div>
+            <p>Khi bấm Build, pipeline hỏi 2 lựa chọn: <b>ENVIRONMENT</b> và <b>BROWSER</b>.</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · parameters</div><pre><code><span class="kw">parameters</span> {
+    choice(name: 'ENVIRONMENT', choices: ['QA', 'Staging'],
+           description: 'Select environment to run tests against')
+    choice(name: 'BROWSER',
+           choices: ['chromium', 'firefox', 'webkit', 'All Browsers'],
+           description: 'Select browser ("All Browsers" = run on all 3)')
+}</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">2</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Suy ra biến môi trường</span></div>
+            <p><b>BASE_URL</b> tính từ ENVIRONMENT (QA → site UK, Staging → site VN); <b>BROWSER</b> = <b>all</b> nếu chọn All Browsers.</p>
+            <p class="why">Hai biến này được truyền xuống container test ở bước 5.</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · environment</div><pre><code><span class="kw">environment</span> {
+    BASE_URL = "${params.ENVIRONMENT == 'QA'
+        ? 'https://www.uniqlo.com/uk/en/'
+        : 'https://www.uniqlo.com/vn/en/'}"
+    BROWSER  = "${params.BROWSER == 'All Browsers' ? 'all' : params.BROWSER}"
+}</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">3</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Options</span></div>
+            <p><b>timestamps()</b> gắn giờ vào log; <b>timeout 30 phút</b> để job không treo; <b>buildDiscarder</b> chỉ giữ 20 build gần nhất.</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · options</div><pre><code><span class="kw">options</span> {
+    timestamps()
+    timeout(time: 30, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '20'))
+}</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">4</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Stage: Checkout</span></div>
+            <p><b>checkout scm</b> kéo đúng branch/commit mà job được cấu hình trỏ tới (SCM = repo này).</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · stages</div><pre><code><span class="kw">stage</span>('Checkout') {
+    steps {
+        checkout scm
+    }
+}</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">5</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Stage: Run Tests</span></div>
+            <p>Compose (dùng <b>docker-compose.yml</b> ở gốc repo) dựng service <b>playwright-tests</b>, chạy suite vào <b>BASE_URL</b> với <b>BROWSER</b> đã chọn. <b>--exit-code-from</b> lấy mã thoát của container test làm kết quả stage.</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · stages</div><pre><code><span class="kw">stage</span>('Run Tests') {
+    steps {
+        echo "Environment: ${params.ENVIRONMENT} | URL: ${env.BASE_URL}"
+        sh 'docker compose up --abort-on-container-exit \
+                --exit-code-from playwright-tests'
+    }
+}</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">6</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Lưu kết quả</span></div>
+            <p><b>post → always</b> của stage: <b>publishHTML</b> gắn Playwright report vào build; <b>archiveArtifacts</b> lưu report + test-results để tải về. Chạy dù pass hay fail.</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · post (Run Tests)</div><pre><code><span class="kw">post</span> {
+    always {
+        publishHTML(target: [
+            reportName : "Playwright - ${params.ENVIRONMENT}",
+            reportDir  : 'playwright-report',
+            reportFiles: 'index.html',
+            keepAll    : true
+        ])
+        archiveArtifacts(
+            artifacts        : 'playwright-report/**/*,test-results/**/*',
+            allowEmptyArchive: true
+        )
+    }
+}</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="lane"><span class="node">7</span></div>
+          <div class="card">
+            <div class="card__head"><span class="h">Dọn dẹp &amp; báo cáo</span></div>
+            <p><b>post → always</b> của pipeline: <b>docker compose down --volumes</b> gỡ container + volume, tránh rác giữa các lần chạy. Sau đó in PASSED / FAILED.</p>
+            <div class="snip"><div class="snip__file">Jenkinsfile · post (pipeline)</div><pre><code><span class="kw">post</span> {
+    always  { sh 'docker compose down --volumes' }
+    success { echo "PASSED on ${params.ENVIRONMENT} (${params.BROWSER})" }
+    failure { echo "FAILED on ${params.ENVIRONMENT} (${params.BROWSER})" }
+}</code></pre></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="cf-foot">Nguồn: Dockerfile · docker-compose.yaml · Jenkinsfile — trích nguyên văn từ repo tại thời điểm dựng sơ đồ.</div>
+</div>
