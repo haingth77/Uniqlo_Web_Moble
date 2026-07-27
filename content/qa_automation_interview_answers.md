@@ -2720,7 +2720,7 @@ Câu này gây impression với senior interviewer vì show **architectural thin
 
 ---
 
-### MDaaS Scenario
+### Scan Service Scenario
 
 ### 156. Mô tả cách test hệ scan file event-driven của bạn (end-to-end).
 

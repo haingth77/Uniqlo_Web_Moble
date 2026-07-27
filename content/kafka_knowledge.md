@@ -248,7 +248,7 @@ Consumer Lag ──> metric vàng để đánh giá throughput & sức khỏe
 
 ---
 
-## 11. Phỏng vấn — Q&A bám dự án thực tế (MDaaS)
+## 11. Phỏng vấn — Q&A bám dự án thực tế (Scan Service)
 
 > [!NOTE]
 > Phần này build trên một dự án có thật: hệ scan file **event-driven qua Kafka**. Producer dùng **`request_id` làm partition key**. Test produce 1 scan request → một consumer riêng (`node index.js -a consume`) gom result message theo `request_id` vào file datalog → Playwright test **poll datalog tới khi gặp terminal event `progress_percentage == 100`** → verify payload bản ghi cuối (như verify response body API). Có assert ordering: chuỗi `progress_percentage` của 1 request phải **tăng dần đơn điệu**.

@@ -268,7 +268,7 @@
 154. Nguyên nhân gây flaky test khi test Kafka và cách phòng tránh?
 155. Làm sao test ordering, duplicate, poison-pill (DLQ)?
 
-### MDaaS Scenario
+### Scan Service Scenario
 
 156. Mô tả cách test hệ scan file event-driven của bạn (end-to-end).
 157. Bạn xác định “một request đã xử lý xong” như thế nào?
