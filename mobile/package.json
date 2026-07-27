@@ -1,0 +1,25 @@
+{
+  "name": "uniqlo-mobile-appium",
+  "version": "1.0.0",
+  "description": "Native Android automation for the UNIQLO app (Appium + WebdriverIO + TypeScript)",
+  "type": "module",
+  "scripts": {
+    "test": "wdio run ./wdio.conf.ts",
+    "test:home": "wdio run ./wdio.conf.ts --spec ./test/specs/home.e2e.ts",
+    "appium": "appium",
+    "appium:doctor": "appium driver doctor uiautomator2",
+    "driver:install": "appium driver install uiautomator2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@wdio/appium-service": "^9.0.0",
+    "@wdio/cli": "^9.0.0",
+    "@wdio/local-runner": "^9.0.0",
+    "@wdio/mocha-framework": "^9.0.0",
+    "@wdio/spec-reporter": "^9.0.0",
+    "appium": "^2.13.1",
+    "appium-uiautomator2-driver": "^3.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.0"
+  }
+}

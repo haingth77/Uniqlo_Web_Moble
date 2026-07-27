@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["ES2022"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "types": [
+      "node",
+      "@wdio/globals/types",
+      "@wdio/mocha-framework",
+      "expect-webdriverio"
+    ],
+    "paths": {
+      "@screens/*": ["test/screens/*"]
+    }
+  },
+  "include": ["test/**/*.ts", "wdio.conf.ts"],
+  "exclude": ["node_modules"]
+}
